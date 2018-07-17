@@ -4,9 +4,9 @@ import os
 from celery import Celery
 
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mitn.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
 
-app = Celery('mitn')
+app = Celery('project')
 
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.
