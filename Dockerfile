@@ -9,10 +9,11 @@ COPY . .
 
 RUN pip install -r requirements.txt
 RUN pip install wooey
+RUN wooify -p mitn
 
 #RUN chown -R www-data /app
 #USER www-data
-RUN chmod g+r -R wsgi.py ./welcome
+RUN chmod g+r -R wsgi.py ./mitn
 
 RUN chown root:root /etc/ssl/certs /etc/ssl/private
 RUN chmod -R g+rw /etc/ssl/certs 

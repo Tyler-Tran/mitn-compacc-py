@@ -10,7 +10,6 @@ urlpatterns = [
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^$', index),
-    url(r'^wooey/', include('wooey.urls')),
     url(r'^basic_questions$', basic_questions),
     url(r'^folder$', folder),
     url(r'^health$', health),
