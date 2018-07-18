@@ -18,10 +18,9 @@ INSTALLED_APPS += (
     'kombu.transport.filesystem',
 )
 
-DEBUG=False
 # This stores the results of tasks. For larger sites, a database may become slow and other solutions
 # such as redis should be considered.
-CELERY_RESULT_BACKEND = 'amqp'
+CELERY_RESULT_BACKEND = 'django-db'
 
 # This should absolutely be changed to a non-filesystem based broker for production deployments!
 # http://docs.celeryproject.org/en/latest/getting-started/brokers/
@@ -74,29 +73,29 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 ## Here is a setup example for production servers
 
-# A postgres database -- for multiple users a sqlite based database is asking for trouble
+## A postgres database -- for multiple users a sqlite based database is asking for trouble
 
- DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         # for production environments, these should be stored as environment variables
-         # I also recommend the django-heroku-postgresify package for a super simple setup
-         'NAME': os.environ.get('DATABASE_NAME', 'wooey'),
-         'USER': os.environ.get('OPENSHIFT_POSTGRESQL_DB_USERNAME', 'wooey'),
-         'PASSWORD': os.environ.get('OPENSHIFT_POSTGRESQL_DB_PASSWORD', 'wooey'),
-         'HOST': os.environ.get('OPENSHIFT_POSTGRESQL_DB_HOST', 'localhost'),
-         'PORT': os.environ.get('OPENSHIFT_POSTGRESQL_DB_PORT', '5432')
-     }
- }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         # for production environments, these should be stored as environment variables
+#         # I also recommend the django-heroku-postgresify package for a super simple setup
+#         'NAME': os.environ.get('DATABASE_NAME', 'wooey'),
+#         'USER': os.environ.get('DATABASE_USER', 'wooey'),
+#         'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'wooey'),
+#         'HOST': os.environ.get('DATABASE_URL', 'localhost'),
+#         'PORT': os.environ.get('DATABASE_PORT', '5432')
+#     }
+# }
 
 ## A better celery broker -- using RabbitMQ (these defaults are from two free rabbitmq Heroku providers)
-CELERY_BROKER_URL = os.environ.get('CLOUDAMQP_URI') or \
-              os.environ.get('RABBITMQ_BIGWIG_TX_URL') or \
-              os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost:5672/')
- CELERY_BROKER_POOL_LIMIT = 1
- CELERYD_CONCURRENCY = 1
- CELERY_TASK_SERIALIZER = 'json'
- CELERY_TASK_ACKS_LATE = True
+# CELERY_BROKER_URL = os.environ.get('AMQP_URL') or \
+#              os.environ.get('RABBITMQ_BIGWIG_TX_URL') or \
+#              os.environ.get('CLOUDAMQP_URL', 'amqp://guest:guest@localhost:5672/')
+# CELERY_BROKER_POOL_LIMIT = 1
+# CELERYD_CONCURRENCY = 1
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_TASK_ACKS_LATE = True
 #
 
 ## for production environments, django-storages abstracts away much of the difficulty of various storage engines.
